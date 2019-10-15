@@ -4,11 +4,13 @@ const Users = require('./users-model.js');
 const restricted = require('../auth/restricted-middleware.js');
 
 router.get('/', restricted, (req, res) => {
+  req.session && req.session.username ?
   Users.find()
     .then(users => {
       res.json(users);
     })
-    .catch(err => res.send(err));
+    .catch(err => res.send(err))
+    : null;
 });
 
 module.exports = router;
